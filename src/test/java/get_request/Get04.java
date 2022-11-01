@@ -1,3 +1,6 @@
+package get_request;
+
+import base_url.JsonplaceholderBaseUrl;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.Test;
@@ -27,18 +30,20 @@ public class Get04 extends JsonplaceholderBaseUrl {
  */
 
     @Test
-    public void Get01() {
+    public void get01() {
 
         spec.pathParam("first","todos");
 
         Response response = given().spec(spec).when().accept(ContentType.JSON).get("/{first}");
         response.prettyPrint();
 
-        response.then().assertThat()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("id", hasSize(200), "title", hasItem("quis eius est sint explicabo")
-                        ,"userId","2,7,9");
+        response.then().
+                assertThat().
+                statusCode(200).
+                contentType(ContentType.JSON).
+                body("id",hasSize(200),
+                        "title",hasItem("quis eius est sint explicabo"),
+                        "userId",hasItems(2,7,9));
 
     }
 }
